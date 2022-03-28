@@ -6,7 +6,9 @@ import com.javayuhm.fastlms.member.repository.MemberRepository;
 import com.javayuhm.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,10 +43,11 @@ public class MemberController {
 
     //@RequestMapping(value = "/member/register", method = RequestMethod.POST)
     @PostMapping("/member/register")
-    public String registerSubmit(HttpServletRequest request, HttpServletResponse response, MemberInput parameter)
+    public String registerSubmit(Model model, HttpServletRequest request, HttpServletResponse response, MemberInput parameter)
     {
         boolean result = memberService.register(parameter);
 
+        model.addAttribute("result", result);
 /*
         System.out.println(parameter.toString());
 
@@ -59,5 +62,17 @@ public class MemberController {
 */
 
         return "member/register_complete";
+    }
+
+    @GetMapping("/member/email-auth")
+    public String emailAuth(Model model,HttpServletRequest request){
+        String uuid = request.getParameter("id");
+
+        boolean result = memberService.emailAuth(uuid);
+
+        model.addAttribute("result", result);
+
+
+        return "member/email_auth";
     }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <title>이메일 활성화 </title>
+</head>
+<body>
+    <div th:if="${result}">
+        <h1>이메일 인증 성공</h1>
+        <p>회원님의 계정이 활성화 되었습니다.</p>
+    </div>
+    <div th:if="${result eq false}">
+        <h1>이메일 인증 실패</h1>
+        <p>회원님의 계정이 활성화에 실패하였습니다.</p>
+    </div>
+</body>
+</html>

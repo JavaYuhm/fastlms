@@ -18,4 +18,8 @@ public class Member {
     private String password;
     private LocalDateTime regDt;
 
+    private boolean emailAuthYn;
+    private  LocalDateTime emailAuthDt;
+    private String emailAuthKey;
+
 }
