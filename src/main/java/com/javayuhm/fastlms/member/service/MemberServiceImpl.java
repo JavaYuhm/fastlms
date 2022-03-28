@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Service
 public class MemberServiceImpl implements MemberService {
-
+    // args 자동으로 생성자 생성
     private final MemberRepository memberRepository;
 
     @Override
