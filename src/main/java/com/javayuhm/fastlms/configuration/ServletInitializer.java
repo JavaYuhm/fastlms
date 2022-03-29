@@ -1,5 +1,6 @@
-package com.javayuhm.fastlms;
+package com.javayuhm.fastlms.configuration;
 
+import com.javayuhm.fastlms.FastlmsApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

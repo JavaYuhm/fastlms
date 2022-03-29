@@ -33,6 +33,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @RequestMapping("/member/login")
+    public String login(){
+        return "member/login";
+
+    }
+
+
     //@RequestMapping(value = "/member/register", method = RequestMethod.GET)
     @GetMapping("/member/register")
     public String register(){
@@ -75,4 +82,12 @@ public class MemberController {
 
         return "member/email_auth";
     }
+
+    @GetMapping("/member/info")
+    public String mememberInfo(){
+
+        return "member/info";
+    }
 }
+
+

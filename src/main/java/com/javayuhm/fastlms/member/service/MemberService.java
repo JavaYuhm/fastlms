@@ -1,8 +1,9 @@
 package com.javayuhm.fastlms.member.service;
 
 import com.javayuhm.fastlms.member.model.MemberInput;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface MemberService {
+public interface MemberService extends UserDetailsService {
     boolean register(MemberInput parameter);
 
     /**
