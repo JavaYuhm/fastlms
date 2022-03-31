@@ -2,6 +2,7 @@ package com.javayuhm.fastlms.member.service.impl;
 
 import com.javayuhm.fastlms.components.MailComponents;
 import com.javayuhm.fastlms.member.entity.Member;
+import com.javayuhm.fastlms.member.exception.MemberNotEamilAuthException;
 import com.javayuhm.fastlms.member.model.MemberInput;
 import com.javayuhm.fastlms.member.repository.MemberRepository;
 import com.javayuhm.fastlms.member.service.MemberService;
@@ -87,6 +88,10 @@ public class MemberServiceImpl implements MemberService {
         }
 
         Member member = optionalMember.get();
+
+        if(!member.isEmailAuthYn()){
+            throw new MemberNotEamilAuthException("이메일 활성화 이후에 이용가능합니다.");
+        }
 
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
 
