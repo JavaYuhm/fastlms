@@ -106,6 +106,53 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    @Override
+    public boolean resetPassword(String uuid, String password) {
+        Optional<Member> optionalMember = memberRepository.findByResetPasswordKey(uuid);
+        if(!optionalMember.isPresent()){
+            throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        if(member.getResetPasswordLimitDt()==null){
+            throw new RuntimeException("유효한 날짜가 아닙니다");
+        }
+
+        if(member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())){
+            throw  new RuntimeException("날짜가 이전입니다.");
+        }
+
+        String encPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        member.setPassword(encPassword);
+        member.setResetPasswordKey("");
+        member.setResetPasswordLimitDt(null);
+
+        memberRepository.save(member);
+
+        return true;
+    }
+
+    @Override
+    public boolean checkResetPassword(String uuid) {
+        Optional<Member> optionalMember = memberRepository.findByResetPasswordKey(uuid);
+        if(!optionalMember.isPresent()){
+            return false;
+        }
+
+        Member member = optionalMember.get();
+
+        if(member.getResetPasswordLimitDt()==null){
+            throw new RuntimeException("유효한 날짜가 아닙니다");
+        }
+
+        if(member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())){
+            throw  new RuntimeException("유효한 날짜가 아닙니다");
+        }
+
+        return true;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
