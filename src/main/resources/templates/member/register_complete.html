@@ -5,7 +5,8 @@
     <title>회원가입 완료</title>
 </head>
 <body>
-
+<div th:replace="/fragments/layout.html :: fragment-body-menu">
+</div>
     <div th:if="${result}">
         <h1>회원가입 결과</h1>
         <p>회원가입에 완료하였습니다.</p>

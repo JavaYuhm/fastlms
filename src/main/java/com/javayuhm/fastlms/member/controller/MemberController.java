@@ -2,6 +2,7 @@ package com.javayuhm.fastlms.member.controller;
 
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.model.MemberInput;
+import com.javayuhm.fastlms.member.model.ResetPasswordInput;
 import com.javayuhm.fastlms.member.repository.MemberRepository;
 import com.javayuhm.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,26 @@ public class MemberController {
 
     }
 
+    @GetMapping("/member/find/password")
+    public String findPassword(){
+        return "member/find_password";
+    }
+
+    @PostMapping("/member/find/password")
+    public String findePasswordSubmit(Model model,ResetPasswordInput resetPasswordInput){
+
+        boolean result = false;
+        try{
+            result =  memberService.sendResetPassword(resetPasswordInput);
+        } catch (Exception e){
+
+        }
+       // boolean result =  memberService.sendResetPassword(resetPasswordInput);
+
+        model.addAttribute("result", result);
+
+         return "member/find_password_result";
+    }
 
     //@RequestMapping(value = "/member/register", method = RequestMethod.GET)
     @GetMapping("/member/register")

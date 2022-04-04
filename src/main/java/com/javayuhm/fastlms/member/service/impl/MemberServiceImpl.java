@@ -4,6 +4,7 @@ import com.javayuhm.fastlms.components.MailComponents;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.exception.MemberNotEamilAuthException;
 import com.javayuhm.fastlms.member.model.MemberInput;
+import com.javayuhm.fastlms.member.model.ResetPasswordInput;
 import com.javayuhm.fastlms.member.repository.MemberRepository;
 import com.javayuhm.fastlms.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +53,8 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         String email = parameter.getUserId();
-        String subject = "fastlms 사이트 가입을 축하드립니다.";
-        String text = "<p>fastlms 사이트 가입을 축하드립니다.</p> <p>아래 링크를 클릭하셔서 가입을 완료 하세요.</p>"
+        String subject = "이메일 인증 테스트";
+        String text = "<p>사이트 가입을 축하드립니다.</p> <p>아래 링크를 클릭하셔서 가입을 완료 하세요.</p>"
                 + "<div><a target='_blank' href='http://localhost:8080/member/email-auth?id=" + uuid + "'> 가입 완료 </a></div>";
 
         mailComponents.sendMail(email, subject, text);
@@ -78,12 +79,40 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    @Override
+    public boolean sendResetPassword(ResetPasswordInput parameter) {
+
+        Optional<Member> optionalMember = memberRepository.findByUserIdAndUserName(parameter.getUserId(), parameter.getUserName());
+
+        if(!optionalMember.isPresent()){
+            throw new UsernameNotFoundException("일치하는 회원정보가 없습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        String uuid = UUID.randomUUID().toString();
+
+        member.setResetPasswordKey(uuid);
+        member.setResetPasswordLimitDt(LocalDateTime.now().plusDays(1));
+        memberRepository.save(member);
+
+        String email = parameter.getUserId();
+        String subject = "비밀번호 초기화 메일입니다.";
+        String text = "<p>비밀번호 초기화 메일입니다.</p> <p>아래 링크를 클릭해서 비밀번호 초기화를 진행해주세요.</p>"
+                + "<div><a target='_blank' href='http://localhost:8080/member/reset/password?id=" + uuid + "'> 비밀번호 초기화 링크 </a></div>";
+
+        mailComponents.sendMail(email, subject, text);
+
+        return true;
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<Member> optionalMember = memberRepository.findById(username);
         if(!optionalMember.isPresent()){
+            System.out.println("회원정보없음.");
             throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
         }
 
