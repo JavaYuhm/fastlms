@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
 
         Optional<Member> optionalMember = memberRepository.findById(parameter.getUserId());
 
-        if(optionalMember.isPresent()){
+        if (optionalMember.isPresent()) {
             // ID가 이미 존재함.
             return false;
         }
@@ -66,13 +66,13 @@ public class MemberServiceImpl implements MemberService {
 
         Optional<Member> optionalMember = memberRepository.findByEmailAuthKey(uuid);
 
-        if(!optionalMember.isPresent()){
+        if (!optionalMember.isPresent()) {
             return false;
         }
 
         Member member = optionalMember.get();
 
-        if(member.isEmailAuthYn()){
+        if (member.isEmailAuthYn()) {
             return false;
         }
 
@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
 
         Optional<Member> optionalMember = memberRepository.findByUserIdAndUserName(parameter.getUserId(), parameter.getUserName());
 
-        if(!optionalMember.isPresent()){
+        if (!optionalMember.isPresent()) {
             throw new UsernameNotFoundException("일치하는 회원정보가 없습니다.");
         }
 
@@ -113,18 +113,18 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean resetPassword(String uuid, String password) {
         Optional<Member> optionalMember = memberRepository.findByResetPasswordKey(uuid);
-        if(!optionalMember.isPresent()){
+        if (!optionalMember.isPresent()) {
             throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
         }
 
         Member member = optionalMember.get();
 
-        if(member.getResetPasswordLimitDt()==null){
+        if (member.getResetPasswordLimitDt() == null) {
             throw new RuntimeException("유효한 날짜가 아닙니다");
         }
 
-        if(member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())){
-            throw  new RuntimeException("날짜가 이전입니다.");
+        if (member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("날짜가 이전입니다.");
         }
 
         String encPassword = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -140,21 +140,26 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean checkResetPassword(String uuid) {
         Optional<Member> optionalMember = memberRepository.findByResetPasswordKey(uuid);
-        if(!optionalMember.isPresent()){
+        if (!optionalMember.isPresent()) {
             return false;
         }
 
         Member member = optionalMember.get();
 
-        if(member.getResetPasswordLimitDt()==null){
+        if (member.getResetPasswordLimitDt() == null) {
             throw new RuntimeException("유효한 날짜가 아닙니다");
         }
 
-        if(member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())){
-            throw  new RuntimeException("유효한 날짜가 아닙니다");
+        if (member.getResetPasswordLimitDt().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("유효한 날짜가 아닙니다");
         }
 
         return true;
+    }
+
+    @Override
+    public List<Member> list() {
+        return memberRepository.findAll();
     }
 
 
@@ -162,14 +167,14 @@ public class MemberServiceImpl implements MemberService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<Member> optionalMember = memberRepository.findById(username);
-        if(!optionalMember.isPresent()){
+        if (!optionalMember.isPresent()) {
             System.out.println("회원정보없음.");
             throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
         }
 
         Member member = optionalMember.get();
 
-        if(!member.isEmailAuthYn()){
+        if (!member.isEmailAuthYn()) {
             throw new MemberNotEamilAuthException("이메일 활성화 이후에 이용가능합니다.");
         }
 
@@ -177,11 +182,11 @@ public class MemberServiceImpl implements MemberService {
 
         grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-        if(member.isAdminYn()){
+        if (member.isAdminYn()) {
             grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
 
-        return new User(member.getUserId(), member.getPassword(),grantedAuthorityList);
+        return new User(member.getUserId(), member.getPassword(), grantedAuthorityList);
     }
 }

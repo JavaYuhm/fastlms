@@ -1,10 +1,61 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head >
+<head>
     <meta charset="UTF-8">
     <title>회원 관리 </title>
+    <style>
+        .list table {
+            border-collapse: collapse;
+        }
+        .list table th, .list table td {
+            width: 100%;
+            border: solid 1px black;
+        }
+    </style>
 </head>
 <body>
+
+<div>
+    <a href="/admin/main.do">관리자 홈</a>
+    |
+    <a href="/admin/member/list.do">관리자 회원 관리</a>
+    |
+    <a href="#">카테고리 관리</a>
+    |
+    <a href="#">강의 관리</a>
+    |
+    <a href="/member/logout">로그아웃</a>
+    <hr/>
+</div>
+
+<div class="list">
+   <table>
+       <thead>
+        <tr>
+            <th>No</th>
+            <th>아이디(이메일)<</th>
+            <th>이름</th>
+            <th>연락처</th>
+            <th>이메일 인증여부</th>
+            <th>가입일</th>
+            <th>
+                관리자여부
+            </th>
+        </tr>
+       </thead>
+       <tbody>
+            <tr>
+                <td>1</td>
+                <td>이메일</td>
+                <td>이름</td>
+                <td>010-0000</td>
+                <t>N</t>
+            </tr>
+       </tbody>
+   </table>
+
+</div>
+
 
 </body>
 </html>

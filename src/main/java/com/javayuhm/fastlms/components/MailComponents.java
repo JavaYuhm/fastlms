@@ -15,7 +15,7 @@ public class MailComponents {
 
     private final JavaMailSender javaMailSender;
 
-    public void sendMailTest(){
+    public void sendMailTest() {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo("kora1492@naver.com");
         simpleMailMessage.setSubject("안녕하세요. ");
@@ -24,7 +24,7 @@ public class MailComponents {
         javaMailSender.send(simpleMailMessage);
     }
 
-    public boolean sendMail(String mail, String subject, String text){
+    public boolean sendMail(String mail, String subject, String text) {
 
         boolean result = false;
 
@@ -40,10 +40,10 @@ public class MailComponents {
             }
         };
 
-        try{
+        try {
             javaMailSender.send(msg);
             result = true;
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

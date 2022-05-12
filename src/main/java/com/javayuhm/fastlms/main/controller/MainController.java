@@ -18,8 +18,7 @@ import java.io.PrintWriter;
 public class MainController {
 
     @RequestMapping("/")
-    public String index()
-    {
+    public String index() {
         String email = "kora1492@naver.com";
         String subject = "안녕하세요. 제로베이스입니다.";
         String text = "<p>안녕하세요.</p> <p>반갑습니다.</p>";
@@ -33,14 +32,14 @@ public class MainController {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter printWriter = response.getWriter();
 
-        String msg = "<html>"+
-                "<head>"+
-                "<meta charset =\"UTF-8\">"+
-                "</head>"+
-                "<body>"+
-                "<p>hello</p>  <p>fastlms website!!</p>"+
-                "<p>안녕하세요!!!</p>"+
-                "</body>"+
+        String msg = "<html>" +
+                "<head>" +
+                "<meta charset =\"UTF-8\">" +
+                "</head>" +
+                "<body>" +
+                "<p>hello</p>  <p>fastlms website!!</p>" +
+                "<p>안녕하세요!!!</p>" +
+                "</body>" +
                 "</html>";
 
 
@@ -51,7 +50,7 @@ public class MainController {
 
 
     @RequestMapping("/error/denied")
-    public String errorDenied(){
+    public String errorDenied() {
         return "error/denied";
     }
 }

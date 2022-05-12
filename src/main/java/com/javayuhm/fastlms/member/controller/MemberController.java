@@ -35,35 +35,35 @@ public class MemberController {
     private final MemberService memberService;
 
     @RequestMapping("/member/login")
-    public String login(){
+    public String login() {
         return "member/login";
 
     }
 
     @GetMapping("/member/find/password")
-    public String findPassword(){
+    public String findPassword() {
         return "member/find_password";
     }
 
     @PostMapping("/member/find/password")
-    public String findePasswordSubmit(Model model,ResetPasswordInput resetPasswordInput){
+    public String findePasswordSubmit(Model model, ResetPasswordInput resetPasswordInput) {
 
         boolean result = false;
-        try{
-            result =  memberService.sendResetPassword(resetPasswordInput);
-        } catch (Exception e){
+        try {
+            result = memberService.sendResetPassword(resetPasswordInput);
+        } catch (Exception e) {
 
         }
-       // boolean result =  memberService.sendResetPassword(resetPasswordInput);
+        // boolean result =  memberService.sendResetPassword(resetPasswordInput);
 
         model.addAttribute("result", result);
 
-         return "member/find_password_result";
+        return "member/find_password_result";
     }
 
     //@RequestMapping(value = "/member/register", method = RequestMethod.GET)
     @GetMapping("/member/register")
-    public String register(){
+    public String register() {
         System.out.println("Get run");
         return "member/register";
 
@@ -71,8 +71,7 @@ public class MemberController {
 
     //@RequestMapping(value = "/member/register", method = RequestMethod.POST)
     @PostMapping("/member/register")
-    public String registerSubmit(Model model, HttpServletRequest request, HttpServletResponse response, MemberInput parameter)
-    {
+    public String registerSubmit(Model model, HttpServletRequest request, HttpServletResponse response, MemberInput parameter) {
         boolean result = memberService.register(parameter);
 
         model.addAttribute("result", result);
@@ -93,7 +92,7 @@ public class MemberController {
     }
 
     @GetMapping("/member/email-auth")
-    public String emailAuth(Model model,HttpServletRequest request){
+    public String emailAuth(Model model, HttpServletRequest request) {
         String uuid = request.getParameter("id");
 
         boolean result = memberService.emailAuth(uuid);
@@ -105,13 +104,13 @@ public class MemberController {
     }
 
     @GetMapping("/member/info")
-    public String mememberInfo(){
+    public String mememberInfo() {
 
         return "member/info";
     }
 
     @GetMapping("/member/reset/password")
-    public String resetPassword (Model model, HttpServletRequest request){
+    public String resetPassword(Model model, HttpServletRequest request) {
 
         String uuid = request.getParameter("id");
         model.addAttribute("uuid", uuid);
@@ -122,14 +121,14 @@ public class MemberController {
     }
 
     @PostMapping("/member/reset/password")
-    public String resetPasswordSubmit(Model model, ResetPasswordInput parameter){
+    public String resetPasswordSubmit(Model model, ResetPasswordInput parameter) {
 
         boolean result = false;
 
         try {
-            result =   memberService.resetPassword(parameter.getId(), parameter.getPassword());
+            result = memberService.resetPassword(parameter.getId(), parameter.getPassword());
 
-        } catch (Exception e){
+        } catch (Exception e) {
 
         }
         model.addAttribute("result", result);

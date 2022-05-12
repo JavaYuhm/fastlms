@@ -15,12 +15,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
-public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final MemberService memberService;
 
     @Bean
-    UserAuthenticationFailureHandler getFailureHandler(){
+    UserAuthenticationFailureHandler getFailureHandler() {
         return new UserAuthenticationFailureHandler();
     }
 
@@ -69,7 +69,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(memberService)
-            .passwordEncoder(getPassswordEncoder());
+                .passwordEncoder(getPassswordEncoder());
 
         super.configure(auth);
     }

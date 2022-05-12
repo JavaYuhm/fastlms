@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Member {
 
     @Id
-    private  String userId;
+    private String userId;
 
     private String userName;
     private String phone;
@@ -25,7 +25,7 @@ public class Member {
     private LocalDateTime regDt;
 
     private boolean emailAuthYn;
-    private  LocalDateTime emailAuthDt;
+    private LocalDateTime emailAuthDt;
     private String emailAuthKey;
 
     private String resetPasswordKey;
