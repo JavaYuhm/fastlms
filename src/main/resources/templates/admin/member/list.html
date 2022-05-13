@@ -7,8 +7,8 @@
         .list table {
             border-collapse: collapse;
         }
+
         .list table th, .list table td {
-            width: 100%;
             border: solid 1px black;
         }
     </style>
@@ -29,11 +29,11 @@
 </div>
 
 <div class="list">
-   <table>
-       <thead>
+    <table>
+        <thead>
         <tr>
             <th>No</th>
-            <th>아이디(이메일)<</th>
+            <th>아이디(이메일)</th>
             <th>이름</th>
             <th>연락처</th>
             <th>이메일 인증여부</th>
@@ -42,17 +42,29 @@
                 관리자여부
             </th>
         </tr>
-       </thead>
-       <tbody>
+        </thead>
+        <tbody>
+        <div th:each="x : ${list}">
             <tr>
                 <td>1</td>
-                <td>이메일</td>
-                <td>이름</td>
-                <td>010-0000</td>
-                <t>N</t>
+                <td th:text="${x.userId}"></td>
+                <td th:text="${x.userName}"></td>
+                <td th:text="${x.phone}"></td>
+                <td>
+                    <p th:if="${x.emailAuthYn}">Y</p>
+                    <p th:if="${x.emailAuthYn eq false}">N</p>
+                </td>
+                <td>
+                    <p th:text="${x.regDt}"></p>
+                </td>
+                <td>
+                    <p th:if="${x.adminYn}">Y</p>
+                    <p th:if="${x.adminYn eq false}">N</p>
+                </td>
             </tr>
-       </tbody>
-   </table>
+        </div>
+        </tbody>
+    </table>
 
 </div>
 
