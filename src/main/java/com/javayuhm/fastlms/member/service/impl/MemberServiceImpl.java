@@ -1,5 +1,7 @@
 package com.javayuhm.fastlms.member.service.impl;
 
+import com.javayuhm.fastlms.admin.dto.MemberDto;
+import com.javayuhm.fastlms.admin.mapper.MemberMapper;
 import com.javayuhm.fastlms.components.MailComponents;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.exception.MemberNotEamilAuthException;
@@ -28,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     // args 자동으로 생성자 생성
     private final MemberRepository memberRepository;
     private final MailComponents mailComponents;
-
+    private final MemberMapper memberMapper;
     @Override
     public boolean register(MemberInput parameter) {
 
@@ -158,12 +160,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> list() {
-        return memberRepository.findAll();
-    }
-
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Optional<Member> optionalMember = memberRepository.findById(username);
@@ -188,5 +184,15 @@ public class MemberServiceImpl implements MemberService {
 
 
         return new User(member.getUserId(), member.getPassword(), grantedAuthorityList);
+    }
+
+
+    @Override
+    public List<MemberDto> list(){
+        MemberDto parameter = new MemberDto();
+
+        List<MemberDto> list = memberMapper.selectList(parameter);
+
+        return  list;
     }
 }
