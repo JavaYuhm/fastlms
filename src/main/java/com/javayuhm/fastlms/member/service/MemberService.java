@@ -1,6 +1,7 @@
 package com.javayuhm.fastlms.member.service;
 
 import com.javayuhm.fastlms.admin.dto.MemberDto;
+import com.javayuhm.fastlms.admin.model.MemberParam;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.model.MemberInput;
 import com.javayuhm.fastlms.member.model.ResetPasswordInput;
@@ -41,5 +42,5 @@ public interface MemberService extends UserDetailsService {
      * 회원 목록 가져오기
      * @return
      */
-    List<MemberDto> list();
+    List<MemberDto> list(MemberParam parameter);
 }

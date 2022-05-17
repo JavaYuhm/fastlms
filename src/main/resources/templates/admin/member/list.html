@@ -5,11 +5,17 @@
     <title>회원 관리 </title>
     <style>
         .list table {
+            width: 100%;
             border-collapse: collapse;
         }
 
         .list table th, .list table td {
             border: solid 1px black;
+        }
+
+        .search-form {
+            padding : 5px 0 10px 0;
+            text-align: right;
         }
     </style>
 </head>
@@ -29,6 +35,30 @@
 </div>
 
 <div class="list">
+    <div class="search-form">
+        <form method="get">
+
+
+        <select name="searchType">
+            <option value="all">
+                전체
+            </option>
+            <option th:selected="${#strings.equals(param.searchType, 'userId')}" value="userId">
+                아이디
+            </option>
+            <option th:selected="${#strings.equals(param.searchType, 'userName')}" value="userName">
+                이름
+            </option>
+            <option th:selected="${#strings.equals(param.searchType, 'phone')}" value="phone">
+                연락처
+            </option>
+        </select>
+        <input type="search" name="searchValue"/>
+        <button type="submit">
+            검색
+        </button>
+        </form>
+    </div>
     <table>
         <thead>
         <tr>
@@ -44,7 +74,9 @@
         </tr>
         </thead>
         <tbody>
+
         <div th:each="x : ${list}">
+
             <tr>
                 <td>1</td>
                 <td th:text="${x.userId}"></td>

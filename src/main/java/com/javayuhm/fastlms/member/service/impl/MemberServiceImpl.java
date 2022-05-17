@@ -2,6 +2,7 @@ package com.javayuhm.fastlms.member.service.impl;
 
 import com.javayuhm.fastlms.admin.dto.MemberDto;
 import com.javayuhm.fastlms.admin.mapper.MemberMapper;
+import com.javayuhm.fastlms.admin.model.MemberParam;
 import com.javayuhm.fastlms.components.MailComponents;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.exception.MemberNotEamilAuthException;
@@ -188,10 +189,9 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public List<MemberDto> list(){
-        MemberDto parameter = new MemberDto();
+    public List<MemberDto> list(MemberParam memberParam){
 
-        List<MemberDto> list = memberMapper.selectList(parameter);
+        List<MemberDto> list = memberMapper.selectList(memberParam);
 
         return  list;
     }
