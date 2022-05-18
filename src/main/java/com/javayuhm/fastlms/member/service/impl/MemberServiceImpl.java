@@ -206,4 +206,16 @@ public class MemberServiceImpl implements MemberService {
 
         return  list;
     }
+
+    @Override
+    public MemberDto detail(String userId) {
+        // 쿼리문이 복잡한 경우, mybatis (간단한 경우 jpa)
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if(!optionalMember.isPresent()){
+            return null;
+        }
+        Member member = optionalMember.get();
+
+        return MemberDto.of(member);
+    }
 }
