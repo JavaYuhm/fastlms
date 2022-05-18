@@ -14,8 +14,26 @@
         }
 
         .search-form {
+            position: relative;
             padding : 5px 0 10px 0;
             text-align: right;
+        }
+
+        .search-form .total-count {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 20px;
+            float: left;
+        }
+
+        .pager {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pager a.on {
+            font-width: bold;
+            color: red;
         }
     </style>
 </head>
@@ -36,9 +54,10 @@
 
 <div class="list">
     <div class="search-form">
+        <p class="total-count">
+            전체 멤버 <span th:text="${totalCount}"></span>명
+        </p>
         <form method="get">
-
-
         <select name="searchType">
             <option value="all">
                 전체
@@ -53,7 +72,7 @@
                 연락처
             </option>
         </select>
-        <input type="search" name="searchValue"/>
+        <input th:value="${param.searchValue}" type="sear" name="searchValue" placeholder="검색어 입력"/>
         <button type="submit">
             검색
         </button>
@@ -78,7 +97,7 @@
         <div th:each="x : ${list}">
 
             <tr>
-                <td>1</td>
+                <td th:text="${x.seq}">1</td>
                 <td th:text="${x.userId}"></td>
                 <td th:text="${x.userName}"></td>
                 <td th:text="${x.phone}"></td>
@@ -97,7 +116,9 @@
         </div>
         </tbody>
     </table>
+    <div class="pager" th:utext="${pager}">
 
+    </div>
 </div>
 
 
