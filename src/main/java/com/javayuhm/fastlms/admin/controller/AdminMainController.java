@@ -1,4 +1,4 @@
-package com.javayuhm.fastlms.admin;
+package com.javayuhm.fastlms.admin.controller;
 
 import com.javayuhm.fastlms.admin.dto.MemberDto;
 import com.javayuhm.fastlms.admin.model.MemberParam;

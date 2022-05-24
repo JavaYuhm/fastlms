@@ -50,6 +50,7 @@ public class MemberDto {
                 .resetPasswordKey(member.getResetPasswordKey())
                 .resetPasswordLimitDt(member.getResetPasswordLimitDt())
                 .adminYn(member.isAdminYn())
+                .userStatus(member.getUserStatus())
                 .build();
     }
 

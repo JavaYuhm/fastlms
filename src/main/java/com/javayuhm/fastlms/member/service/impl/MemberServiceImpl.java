@@ -6,6 +6,7 @@ import com.javayuhm.fastlms.admin.model.MemberParam;
 import com.javayuhm.fastlms.components.MailComponents;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.exception.MemberNotEamilAuthException;
+import com.javayuhm.fastlms.member.exception.MemberStopUserException;
 import com.javayuhm.fastlms.member.model.MemberInput;
 import com.javayuhm.fastlms.member.model.ResetPasswordInput;
 import com.javayuhm.fastlms.member.repository.MemberRepository;
@@ -53,6 +54,7 @@ public class MemberServiceImpl implements MemberService {
                 .regDt(LocalDateTime.now())
                 .emailAuthKey(uuid)
                 .emailAuthYn(false)
+                .userStatus(Member.MEMBER_STATUS_ING)
                 .build();
         memberRepository.save(member);
 
@@ -80,8 +82,10 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
+
         member.setEmailAuthYn(true);
         member.setEmailAuthDt(LocalDateTime.now());
+        member.setUserStatus(Member.MEMBER_STATUS_ING);
 
         memberRepository.save(member);
         return true;
@@ -172,8 +176,11 @@ public class MemberServiceImpl implements MemberService {
 
         Member member = optionalMember.get();
 
-        if (!member.isEmailAuthYn()) {
-            throw new MemberNotEamilAuthException("이메일 활성화 이후에 이용가능합니다.");
+        if(member.getUserStatus().equals(Member.MEMBER_STATUS_REQ)) {
+            throw new MemberNotEamilAuthException("이메일 활성화 이후 이용 바랍니다.");
+        }
+        if(member.getUserStatus().equals(Member.MEMBER_STATUS_STOP)) {
+            throw new MemberStopUserException("정지된 회원입니다");
         }
 
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
@@ -217,5 +224,37 @@ public class MemberServiceImpl implements MemberService {
         Member member = optionalMember.get();
 
         return MemberDto.of(member);
+    }
+
+    @Override
+    public boolean updateStatus(String userId, String userStatus) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if (!optionalMember.isPresent()) {
+            System.out.println("회원정보없음.");
+            throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        member.setUserStatus(userStatus);
+        memberRepository.save(member);
+        return true;
+    }
+
+    @Override
+    public boolean updatePassword(String userId, String password) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if (!optionalMember.isPresent()) {
+            System.out.println("회원정보없음.");
+            throw new UsernameNotFoundException("회원정보가 존재하지 않습니다.");
+        }
+
+        Member member = optionalMember.get();
+
+        String encPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        member.setPassword(encPassword);
+        memberRepository.save(member);
+        return true;
     }
 }
