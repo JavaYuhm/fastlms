@@ -1,0 +1,42 @@
+package com.javayuhm.fastlms.admin.dto;
+
+import com.javayuhm.fastlms.admin.entity.Category;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
+public class CategoryDto {
+
+    Long id;
+    String categoryName;
+    int sortValue;
+    boolean useYn;
+
+    public static List<CategoryDto> of(List<Category> categories){
+        if(categories != null){
+            List<CategoryDto> categoryList = new ArrayList<>();
+            for(Category x : categories){
+                categoryList.add(of(x));
+            }
+            return categoryList;
+        }
+        return null;
+    }
+
+    public static CategoryDto of(Category category){
+        return CategoryDto.builder()
+                .id(category.getId())
+                .categoryName(category.getCategoryName())
+                .sortValue(category.getSortValue())
+                .useYn(category.isUseYn())
+                .build();
+    }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리</title>
+    <style>
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list table th, .list table td {
+            border: solid 1px black;
+        }
+
+        .search-form {
+            position: relative;
+            padding : 5px 0 10px 0;
+            text-align: right;
+        }
+
+        .search-form .total-count {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 20px;
+            float: left;
+        }
+
+        .pager {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pager a.on {
+            font-width: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="/fragments/layout.html :: fragment-admin-body-menu">
+</div>
+<h1>카테고리 리스트</h1>
+<div class="list">
+
+    <div>
+        <form method="post" action="/admin/category/add.do">
+            <input type="text" name="categoryName" required placeholder="카테고리명 입력">
+            <button type="submit">추가</button>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    카테고리명
+                </th>
+                <th>
+                    순서
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="x : ${list}">
+
+                <td th:text="${x.id}">1</td>
+                <td th:text="${x.categoryName}"></td>
+                <td>
+                    <p th:if="${x.useYn}">Y</p>
+                    <p th:if="${x.useYn eq false}">N</p>
+                </td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--    <div class="pager" th:utext="${pager}">
+
+    </div>-->
+</div>
+</body>
+</html>
