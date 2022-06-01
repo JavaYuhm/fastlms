@@ -35,7 +35,26 @@
             font-width: bold;
             color: red;
         }
+        p.nothing{
+            text-align: center;
+            padding: 100px;
+        }
+
+        .inline-div{
+            display: inline-block;
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('form[name=deleteForm]').on('submit', function (){
+                if(!confirm('카테고리를 삭제하시겠습니까?')){
+                    return false;
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <div th:replace="/fragments/layout.html :: fragment-admin-body-menu">
@@ -62,18 +81,50 @@
                 <th>
                     순서
                 </th>
+                <th>
+                    사용여부
+                </th>
+                <th>
+                    비고
+                </th>
             </tr>
         </thead>
         <tbody>
         <tr th:each="x : ${list}">
-
-                <td th:text="${x.id}">1</td>
-                <td th:text="${x.categoryName}"></td>
-                <td>
-                    <p th:if="${x.useYn}">Y</p>
-                    <p th:if="${x.useYn eq false}">N</p>
+                <td th:text="${x.id}">
+                    <input type="hidden" name="id" th:value="${x.id}">
+                    <p th:text="${x.id}"></p>
                 </td>
+                <td>
+                    <input  th:value="${x.categoryName}" type="text" name = "categoryName">
+                </td>
+                <td>
+                    <input  th:value="${x.sortValue}" type="text" name="sortValue" />
+                </td>
+                <td>
+                    <label th:for="'useYn_yes_'+${x.id}">Y</label>
+                    <input th:checked="${x.useYn}" type="radio" th:id="'useYn_yes_'+${x.id}" th:name="'useYn_'+${x.id}" value="true">
+                    <label th:for="'useYn_no_'+${x.id}">N</label>
+                    <input th:checked="${!x.useYn}" type="radio" th:id="'useYn_no_'+${x.id}" th:name="'useYn_'+${x.id}" value="false">
+                </td>
+            <td>
+                <div class="inline-div">
+                    <button class="update-btn" type="submit">수정</button>
 
+                </div>
+                <div class="inline-div">
+                    <form name ="deleteForm" method="post" action="/admin/delete.do">
+                        <input type="hidden" name="id" th:value="${x.id}"/>
+                        <button type="submit">삭제</button>
+                    </form>
+                </div>
+
+            </td>
+        </tr>
+        <tr th:if="${#lists.size(list)<1}">
+            <td class="nothing" colspan="5">
+                <p> 리스트가 존재하지 않습니다.</p>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -82,5 +133,9 @@
 
     </div>-->
 </div>
+
+<form method="post" action="/admin/category/update.do">
+
+</form>
 </body>
 </html>
