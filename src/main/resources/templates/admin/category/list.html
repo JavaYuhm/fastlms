@@ -53,7 +53,31 @@
                     return false;
                 }
             });
+
+            $('button.update-btn').on('click', function (){
+
+                var $this = $(this);
+                var $tr = $this.closest('tr');
+
+                var id = $tr.find('input[name=id]').val();
+                var categoryName = $tr.find('input[name=categoryName]').val();
+                var sortValue = $tr.find('input[name=sortValue]').val();
+                var useYn = $tr.find('input[type=checkbox]')[0].checked;
+
+                $updateForm = $('form[name=updateForm]');
+                $updateForm.find('input[name=id]').val(id);
+                $updateForm.find('input[name=categoryName]').val(categoryName);
+                $updateForm.find('input[name=sortValue]').val(sortValue);
+                $updateForm.find('input[name=useYn]').val(useYn);
+
+                alert(useYn);
+
+
+                $updateForm.submit();
+            });
         });
+
+
     </script>
 </head>
 <body>
@@ -102,18 +126,16 @@
                     <input  th:value="${x.sortValue}" type="text" name="sortValue" />
                 </td>
                 <td>
-                    <label th:for="'useYn_yes_'+${x.id}">Y</label>
-                    <input th:checked="${x.useYn}" type="radio" th:id="'useYn_yes_'+${x.id}" th:name="'useYn_'+${x.id}" value="true">
-                    <label th:for="'useYn_no_'+${x.id}">N</label>
-                    <input th:checked="${!x.useYn}" type="radio" th:id="'useYn_no_'+${x.id}" th:name="'useYn_'+${x.id}" value="false">
+                    <input th:checked="${x.useYn}" type="checkbox" th:id="'useYn_'+${x.id}" th:name="'useYn_'+${x.id}" value="true">
+                    <label th:for="'useYn_'+${x.id}">사용</label>
+
                 </td>
             <td>
                 <div class="inline-div">
                     <button class="update-btn" type="submit">수정</button>
-
                 </div>
                 <div class="inline-div">
-                    <form name ="deleteForm" method="post" action="/admin/delete.do">
+                    <form name ="deleteForm" method="post" action="/admin/category/delete.do">
                         <input type="hidden" name="id" th:value="${x.id}"/>
                         <button type="submit">삭제</button>
                     </form>
@@ -134,8 +156,11 @@
     </div>-->
 </div>
 
-<form method="post" action="/admin/category/update.do">
-
+<form name="updateForm" method="post" action="/admin/category/update.do">
+    <input type="hidden" name="id"/>
+    <input type="hidden" name="categoryName"/>
+    <input type="hidden" name="sortValue"/>
+    <input type="hidden" name="useYn"/>
 </form>
 </body>
 </html>

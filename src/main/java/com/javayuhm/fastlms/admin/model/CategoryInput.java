@@ -6,4 +6,6 @@ import lombok.Data;
 public class CategoryInput {
     Long id;
     String categoryName;
+    int sortValue;
+    boolean useYn;
 }

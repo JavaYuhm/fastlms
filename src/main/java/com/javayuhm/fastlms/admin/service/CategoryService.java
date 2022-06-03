@@ -1,6 +1,7 @@
 package com.javayuhm.fastlms.admin.service;
 
 import com.javayuhm.fastlms.admin.dto.CategoryDto;
+import com.javayuhm.fastlms.admin.model.CategoryInput;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public interface CategoryService {
      * @param parameter
      * @return
      */
-    boolean update(CategoryDto parameter);
+    boolean update(CategoryInput parameter);
 
     /**
      * 카테고리 삭제

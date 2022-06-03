@@ -50,5 +50,15 @@ public class AdminCategoryController {
 
     }
 
+    @PostMapping("/admin/category/update.do")
+    public String update(Model model, CategoryInput categoryInput){
+
+        System.out.println(categoryInput.isUseYn());
+        boolean result = categoryService.update(categoryInput);
+
+        return "redirect:/admin/category/list.do";
+
+    }
+
 
 }
