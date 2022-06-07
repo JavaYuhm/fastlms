@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리</title>
+    <style>
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list table th, .list table td {
+            border: solid 1px black;
+        }
+
+        .search-form {
+            position: relative;
+            padding : 5px 0 10px 0;
+            text-align: right;
+        }
+
+        .search-form .total-count {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 20px;
+            float: left;
+        }
+
+        .pager {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pager a.on {
+            font-width: bold;
+            color: red;
+        }
+        p.nothing{
+            text-align: center;
+            padding: 100px;
+        }
+
+        .inline-div{
+            display: inline-block;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+
+    </script>
+</head>
+<body>
+<div th:replace="/fragments/layout.html :: fragment-admin-body-menu">
+</div>
+<h1>강좌 리스트</h1>
+
+<div>
+   <a href="/admin/course/add.do">강좌 추가</a>
+</div>
+
+<div class="list">
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    강좌명
+                </th>
+                <th>
+                    등록일
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <div th:each="x : ${list}">
+
+            <tr>
+                <td th:text="${x.seq}"></td>
+                <td>
+                    <p th:text="${x.subject}"></p>
+                </td>
+                <td>
+                    <p th:text="${x.regDt}"></p>
+                </td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+</div>
+<div class="pager" th:utext="${pager}">
+
+</div>
+</div>
+
+</body>
+</html>
