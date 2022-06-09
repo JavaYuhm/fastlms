@@ -10,6 +10,11 @@ import java.util.List;
 public interface CourseService {
 
     boolean add(CourseInput parameter);
+    boolean edit(CourseInput parameter);
+
 
     List<CourseDto> list(CourseParam parameter);
+
+    CourseDto getById(long id);
+
 }

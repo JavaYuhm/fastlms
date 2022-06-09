@@ -83,7 +83,9 @@
             <tr>
                 <td th:text="${x.seq}"></td>
                 <td>
-                    <p th:text="${x.subject}"></p>
+                    <p>
+                        <a th:href="'edit.do?id='+ ${x.id}"  th:text="${x.subject}">강좌명</a>
+                    </p>
                 </td>
                 <td>
                     <p th:text="${x.regDt}"></p>

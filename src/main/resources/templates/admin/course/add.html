@@ -56,7 +56,7 @@
             font-size: 24px;
             line-height: 20px;
             line-height: 20px;
-            color: aqua;
+            color: mediumpurple;
             cursor: pointer;
         }
     </style>
@@ -78,14 +78,19 @@
 
         <tbody>
             <tr>
+                <th> 강좌 카테고리 </th>
+                <td>
+                    <select name="categoryId">
+                        <option th:each="x : ${category}" value="${x.id}" th:text="${x.categoryName}">카테고리 선택</option>
+                    </select>
+            </tr>
+            <tr>
                 <th>
                     강좌명
                 </th>
-                <th>
                     <td>
-                        <input type="text" name="subject" required/>
+                        <input type="text" name="subject" th:value="${detail.subject}" placeholder="강좌명 입력" required/>
                     </td>
-                </th>
             </tr>
         </tbody>
 
@@ -94,7 +99,8 @@
 
 
     <div class="buttons">
-        <button type="submit">강좌 등록 하기</button>
+            <button th:if="${editMode eq false}" type="submit">강좌 등록 하기</button>
+            <button th:if="${editMode eq true}" type="submit">강좌 수정 하기</button>
         <a href="/admin/course/list.do">목록으로</a>
     </div>
     </form>
