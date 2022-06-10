@@ -6,6 +6,7 @@ import com.javayuhm.fastlms.admin.model.CategoryInput;
 import com.javayuhm.fastlms.admin.model.MemberParam;
 import com.javayuhm.fastlms.admin.service.CategoryService;
 import com.javayuhm.fastlms.course.dto.CourseDto;
+import com.javayuhm.fastlms.course.entity.Course;
 import com.javayuhm.fastlms.course.model.CourseInput;
 import com.javayuhm.fastlms.course.model.CourseParam;
 import com.javayuhm.fastlms.course.service.CourseService;
@@ -96,7 +97,13 @@ public class AdminCourseController extends  BaseController{
 
         return "redirect:/admin/course/list.do";
     }
+    @PostMapping("/admin/course/delete.do")
+    public String del(Model model, HttpServletRequest request, CourseInput parameter){
 
+        boolean result = courseService.delete(parameter.getIdList());
+        return "redirect:/admin/course/list.do";
+
+    }
 
 
 }

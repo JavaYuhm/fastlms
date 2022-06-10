@@ -81,7 +81,8 @@
                 <th> 강좌 카테고리 </th>
                 <td>
                     <select name="categoryId">
-                        <option th:each="x : ${category}" value="${x.id}" th:text="${x.categoryName}">카테고리 선택</option>
+                        <option value="">카테고리 선택</option>
+                        <option th:selected="${detail.categoryId== x.id}" th:each="x : ${category}" th:value="${x.id}" th:text="${x.categoryName}">카테고리 선택</option>
                     </select>
             </tr>
             <tr>
@@ -91,6 +92,56 @@
                     <td>
                         <input type="text" name="subject" th:value="${detail.subject}" placeholder="강좌명 입력" required/>
                     </td>
+            </tr>
+            <tr>
+                <th>
+                    키워드
+                </th>
+                <td>
+                    <input type="text" name="keyword" th:value="${detail.keyword}" placeholder="keyword 입력" required/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    summary
+                </th>
+                <td>
+                    <textarea th:text="${detail.summary}" name= "summary" placeholder="summary 입력" >
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    컨텐츠
+                </th>
+                <td>
+                    <textarea th:text="${detail.contents}" name="contents" placeholder="컨텐츠 입력" >
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    정가
+                </th>
+                <td>
+                    <input type="text" name="price" th:value="${detail.price}" placeholder="price 입력" required/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    판매가
+                </th>
+                <td>
+                    <input type="text" name="salePrice" th:value="${detail.salePrice}" placeholder="판매가 입력" required/>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    할인 판매가 종료일
+                </th>
+                <td>
+                    <input type="Date" name="saleEndDtText" th:value="${detail.saleEndDt}" placeholder="할인판매가 종료일 입력" required/>
+                </td>
             </tr>
         </tbody>
 

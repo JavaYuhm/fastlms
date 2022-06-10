@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -32,7 +33,7 @@ public class Course {
     long price;
     long salePrice;
 
-    LocalDateTime saleEndDt;
+    LocalDate saleEndDt;
     LocalDateTime regDt;
     LocalDateTime uptDt;
 
