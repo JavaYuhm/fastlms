@@ -2,6 +2,7 @@ package com.javayuhm.fastlms.admin.service.impl;
 
 import com.javayuhm.fastlms.admin.dto.CategoryDto;
 import com.javayuhm.fastlms.admin.entity.Category;
+import com.javayuhm.fastlms.admin.mapper.CategoryMapper;
 import com.javayuhm.fastlms.admin.model.CategoryInput;
 import com.javayuhm.fastlms.admin.repository.CategoryRepository;
 import com.javayuhm.fastlms.admin.service.CategoryService;
@@ -17,6 +18,7 @@ import java.util.Optional;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
 
     private Sort getSortBySortValueDesc(){
@@ -67,5 +69,11 @@ public class CategoryServiceImpl implements CategoryService {
     public boolean delete(long id) {
         categoryRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public List<CategoryDto> frontList(CategoryDto parameter) {
+
+        return categoryMapper.select(parameter);
     }
 }
