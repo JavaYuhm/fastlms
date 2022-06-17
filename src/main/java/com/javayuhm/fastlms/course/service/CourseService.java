@@ -4,6 +4,7 @@ import com.javayuhm.fastlms.course.dto.CourseDto;
 import com.javayuhm.fastlms.course.entity.Course;
 import com.javayuhm.fastlms.course.model.CourseInput;
 import com.javayuhm.fastlms.course.model.CourseParam;
+import com.javayuhm.fastlms.course.model.TakeCourseParam;
 
 import java.util.List;
 
@@ -31,4 +32,6 @@ public interface CourseService {
      * @return
      */
     CourseDto frontDetail(long id);
+
+    boolean req(TakeCourseParam parameter);
 }
