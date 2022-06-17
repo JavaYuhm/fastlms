@@ -1,6 +1,5 @@
 package com.javayuhm.fastlms.course.service.impl;
 
-import com.javayuhm.fastlms.admin.dto.MemberDto;
 import com.javayuhm.fastlms.course.dto.CourseDto;
 import com.javayuhm.fastlms.course.entity.Course;
 import com.javayuhm.fastlms.course.mapper.CourseMapper;
@@ -145,5 +144,17 @@ public class CourseServiceImpl implements CourseService {
 
         return courseRepository.findByCategoryId(parameter.getCategoryId()).map(CourseDto::of).orElse(null);
 
+    }
+
+    @Override
+    public CourseDto frontDetail(long id) {
+
+        Optional<Course> optionalCourse = courseRepository.findById(id);
+
+        if(optionalCourse.isPresent()){
+            return CourseDto.of(optionalCourse.get());
+        }
+
+        return null;
     }
 }
