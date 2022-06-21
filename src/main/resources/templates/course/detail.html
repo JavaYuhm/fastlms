@@ -27,9 +27,18 @@
                 };
 
                 axios.post(url, parameter).then(function (response) {
-                    console.log(response);
+
+                    response.data = response.data || {};
+                    response.data.header = response.data.header || {};
+
+                    if(!response.data.header.result){
+                        alert(response.data.header.message);
+                        return false;
+                    }
+                    alert(response.data.header.message);
+                    location.href = '/';
                 }).catch(function (err) {
-                    console.log(err);
+
                 });
 
                 return false;

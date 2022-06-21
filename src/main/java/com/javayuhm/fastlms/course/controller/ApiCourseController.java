@@ -1,6 +1,8 @@
 package com.javayuhm.fastlms.course.controller;
 
 import com.javayuhm.fastlms.admin.service.CategoryService;
+import com.javayuhm.fastlms.common.model.ResponseResult;
+import com.javayuhm.fastlms.course.model.ServiceResult;
 import com.javayuhm.fastlms.course.model.TakeCourseParam;
 import com.javayuhm.fastlms.course.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +28,15 @@ public class ApiCourseController extends  BaseController{
 
         parameter.setUserId(principal.getName());
 
-        boolean result = courseService.req(parameter);
+        ServiceResult result = courseService.req(parameter);
 
-        if(!result){
-            return ResponseEntity.badRequest().body("수강신청에 실패함");
+        if(!result.isResult()){
+            ResponseResult responseResult = new ResponseResult(false, result.getMessage());
+            return ResponseEntity.ok().body(responseResult);
         }
+        ResponseResult responseResult = new ResponseResult(true, result.getMessage());
 
-        return ResponseEntity.ok().body(parameter);
+        return ResponseEntity.ok().body(responseResult);
 
     }
 }

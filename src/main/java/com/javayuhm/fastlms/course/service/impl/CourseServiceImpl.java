@@ -6,6 +6,7 @@ import com.javayuhm.fastlms.course.entity.TakeCourse;
 import com.javayuhm.fastlms.course.mapper.CourseMapper;
 import com.javayuhm.fastlms.course.model.CourseInput;
 import com.javayuhm.fastlms.course.model.CourseParam;
+import com.javayuhm.fastlms.course.model.ServiceResult;
 import com.javayuhm.fastlms.course.model.TakeCourseParam;
 import com.javayuhm.fastlms.course.repository.CourseRepository;
 import com.javayuhm.fastlms.course.repository.TakeCourseRepository;
@@ -164,12 +165,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public boolean req(TakeCourseParam parameter) {
+    public ServiceResult req(TakeCourseParam parameter) {
+
+        ServiceResult result = new ServiceResult();
 
         Optional<Course> optionalCourse = courseRepository.findById(parameter.getCourseId());
 
         if(!optionalCourse.isPresent()){
-            return false;
+            result.setResult(false);
+            result.setMessage("강좌정보가 없습니다.");
+            return result;
         }
         Course course = optionalCourse.get();
 
@@ -178,7 +183,9 @@ public class CourseServiceImpl implements CourseService {
         long count = takeCourseRepository.countByCourseIdAndUserIdAndAndStatusIn(course.getId(), parameter.getUserId(), Arrays.asList(statusList));
 
         if(count>0){
-            return false;
+            result.setResult(false);
+            result.setMessage("이미 신청한 강좌 정보가 있습니다..");
+            return result;
         }
 
         TakeCourse takeCourse = TakeCourse.builder()
@@ -191,6 +198,8 @@ public class CourseServiceImpl implements CourseService {
                 .build();
 
         takeCourseRepository.save(takeCourse);
-        return true;
+        result.setResult(true);
+        result.setMessage("성공");
+        return result;
     }
 }
