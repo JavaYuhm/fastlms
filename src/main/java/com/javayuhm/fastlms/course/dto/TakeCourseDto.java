@@ -5,7 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,4 +33,9 @@ public class TakeCourseDto {
     String userName;
     String phone;
     String subject;
+
+    public String getRegDtText(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+        return regDt != null ? regDt.format(formatter) : "";
+    }
 }

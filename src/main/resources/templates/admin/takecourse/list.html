@@ -13,6 +13,10 @@
             border: solid 1px black;
         }
 
+        .list .row-buttons{
+            text-align: center;
+        }
+
         .search-form {
             position: relative;
             padding : 5px 0 10px 0;
@@ -67,34 +71,20 @@
 
     <script>
         $(document).ready(function () {
-            $('#selectAll').on('click', function () {
-                var checked = $(this).is(':checked');
 
-                $('#dataList input[type=checkbox]').each(function (k, v) {
-                    $(this).prop('checked', checked);
-                });
+            $('.row-buttons button').on('click', function () {
+                var status = $(this).val();
+                var id = $(this).closest('div').find('input[name=id]').val();
+                var msg = status == 'COMPLETE' ? '결재 완료처리하시겠습니까?' : '수강취소 처리 하시겠습니까?';
 
+                if(!confirm(msg)){
+                    return false;
+                }
 
-            });
-            $('#deleteButton').on('click', function () {
-               var $checked =  $('#dataList input[type=checkbox]:checked');
-               if($checked.length < 1){
-                   alert('삭제할 데이터를 선택해주세요');
-                   return false;
-               }
-               if(!confirm('선택한 데이터를 삭제하시겠습니까?')){
-                   return false;
-               }
-               var idList =[];
-               $.each($checked, function (k, v) {
-                   idList.push($(this).val());
-               });
-
-               var $deleteForm = $('form[name=deleteForm]');
-                console.log($deleteForm);
-
-                $deleteForm.find('input[name=idList]').val(idList.join(','));
-                $deleteForm.submit();
+                var $procForm = $('#procForm');
+                $procForm.find('input[name=id]').val(id);
+                $procForm.find('input[name=status]').val(status);
+                $procForm.submit();
 
             });
         })
@@ -132,6 +122,9 @@
                 <th>
                     상태
                 </th>
+                <th>
+                    비고
+                </th>
 
             </tr>
         </thead>
@@ -141,7 +134,7 @@
             <tr>
                 <td th:text="${x.seq}"></td>
                 <td>
-                    <p th:text="${x.regDt}"></p>
+                    <p th:text="${x.regDtText}"></p>
                 </td>
                 <td>
                     <p>
@@ -163,6 +156,15 @@
                     <p th:if="${x.status} eq 'CANCLE'">수강취소</p>
 
                 </td>
+                <td>
+                    <p class="row-buttons" th:if="${x.status} eq 'REQ'">
+                        <input type="hidden" name="id" th:value="${x.id}"/>
+                        <button type="button" value="COMPLETE">결재완료 처리</button>
+                        <button type="button" value="CANCLE">수강취소 처리</button>
+                    </p>
+
+
+                </td>
             </tr>
         </div>
         </tbody>
@@ -173,8 +175,9 @@
 </div>
 </div>
 
-<form name ="deleteForm" method="post" action="/admin/course/delete.do">
-    <input type="hidden" name="idList"/>
+<form id ="procForm" method="post" action="/admin/takecourse/status.do">
+    <input type="hidden" name="id"/>
+    <input type="hidden" name="status"/>
 </form>
 
 </body>

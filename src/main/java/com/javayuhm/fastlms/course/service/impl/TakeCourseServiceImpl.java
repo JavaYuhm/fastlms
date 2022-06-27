@@ -30,7 +30,7 @@ import java.util.Optional;
 public class TakeCourseServiceImpl implements TakeCourseService{
 
     private final TakeCourseMapper takeCourseMapper;
-
+    private final TakeCourseRepository takeCourseRepository;
 
     @Override
     public List<TakeCourseDto> list(TakeCourseParam parameter) {
@@ -47,5 +47,20 @@ public class TakeCourseServiceImpl implements TakeCourseService{
         }
 
         return list;
+    }
+
+    @Override
+    public ServiceResult updateStatus(long id, String status) {
+
+        Optional<TakeCourse> optionalTakeCourse = takeCourseRepository.findById(id);
+        if(!optionalTakeCourse.isPresent()){
+            return new ServiceResult(false, "수강 정보가 존재하지 않습니다");
+        }
+        
+        TakeCourse takeCourse = optionalTakeCourse.get();
+        takeCourse.setStatus(status);
+        takeCourseRepository.save(takeCourse);
+        
+        return new ServiceResult(true, "상태값이 업데이트 되었습니다");
     }
 }

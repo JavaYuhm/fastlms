@@ -1,5 +1,7 @@
 package com.javayuhm.fastlms.member.controller;
 
+import com.javayuhm.fastlms.admin.dto.MemberDto;
+import com.javayuhm.fastlms.course.model.ServiceResult;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.model.MemberInput;
 import com.javayuhm.fastlms.member.model.ResetPasswordInput;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
@@ -104,9 +107,49 @@ public class MemberController {
     }
 
     @GetMapping("/member/info")
-    public String mememberInfo() {
+    public String mememberInfo(Model model, Principal principal) {
+
+        String userId = principal.getName();
+
+        MemberDto detail =memberService.detail(userId);
+        model.addAttribute("detail", detail);
 
         return "member/info";
+    }
+    @GetMapping("/member/password")
+    public String memberPassword(Model model, Principal principal) {
+
+        String userId = principal.getName();
+
+        MemberDto detail =memberService.detail(userId);
+        model.addAttribute("detail", detail);
+
+        return "member/password";
+    }
+    @PostMapping("/member/password")
+    public String memberPasswordSubmit(Model model, Principal principal,MemberInput parameter) {
+
+        String userId = principal.getName();
+        parameter.setUserId(userId);
+
+        ServiceResult result =memberService.updateMemberPassword(parameter);
+        if(!result.isResult()){
+            model.addAttribute("message", "업데이트에 실패했습니다.");
+            return "common/error";
+        }
+
+        return "member/password";
+    }
+
+    @GetMapping("/member/takecourse")
+    public String memberTakeCourse(Model model, Principal principal) {
+
+        String userId = principal.getName();
+
+        MemberDto detail =memberService.detail(userId);
+        model.addAttribute("detail", detail);
+
+        return "member/takecourse";
     }
 
     @GetMapping("/member/reset/password")

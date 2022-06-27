@@ -4,6 +4,7 @@ import com.javayuhm.fastlms.admin.dto.MemberDto;
 import com.javayuhm.fastlms.admin.mapper.MemberMapper;
 import com.javayuhm.fastlms.admin.model.MemberParam;
 import com.javayuhm.fastlms.components.MailComponents;
+import com.javayuhm.fastlms.course.model.ServiceResult;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.exception.MemberNotEamilAuthException;
 import com.javayuhm.fastlms.member.exception.MemberStopUserException;
@@ -259,5 +260,26 @@ public class MemberServiceImpl implements MemberService {
         member.setPassword(encPassword);
         memberRepository.save(member);
         return true;
+    }
+
+    @Override
+    public ServiceResult updateMemberPassword(MemberInput parameter) {
+
+        String userId = parameter.getUserId();
+
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if(!optionalMember.isPresent()){
+            return new ServiceResult(false, "회원 정보를 찾을 수 없습니다.");
+        }
+        Member member = optionalMember.get();
+
+        if(!BCrypt.checkpw(parameter.getPassword(), member.getPassword())){
+            return new ServiceResult(false, "현재 비밀번호가 일치하지 않습니다.");
+        }
+
+        String encPassword = BCrypt.hashpw(parameter.getNewPassword(), BCrypt.gensalt());
+        member.setPassword(encPassword);
+        memberRepository.save(member);
+        return new ServiceResult(true, "비밀번호 변경 성공하였습니다");
     }
 }

@@ -2,6 +2,7 @@ package com.javayuhm.fastlms.member.service;
 
 import com.javayuhm.fastlms.admin.dto.MemberDto;
 import com.javayuhm.fastlms.admin.model.MemberParam;
+import com.javayuhm.fastlms.course.model.ServiceResult;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.model.MemberInput;
 import com.javayuhm.fastlms.member.model.ResetPasswordInput;
@@ -63,4 +64,11 @@ public interface MemberService extends UserDetailsService {
      * @return
      */
     boolean updatePassword(String userId, String password);
+
+    /**
+     * 회원 비밀번호 변경
+     * @param parameter
+     * @return
+     */
+    ServiceResult updateMemberPassword(MemberInput parameter);
 }
