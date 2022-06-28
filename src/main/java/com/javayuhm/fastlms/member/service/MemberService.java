@@ -71,4 +71,9 @@ public interface MemberService extends UserDetailsService {
      * @return
      */
     ServiceResult updateMemberPassword(MemberInput parameter);
+
+    /**
+     * 회원정보 수정
+     */
+    ServiceResult updateMemberInfo(MemberInput parameter);
 }

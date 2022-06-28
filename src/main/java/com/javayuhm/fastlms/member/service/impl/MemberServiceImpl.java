@@ -282,4 +282,26 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
         return new ServiceResult(true, "비밀번호 변경 성공하였습니다");
     }
+
+    @Override
+    public ServiceResult updateMemberInfo(MemberInput parameter) {
+
+        Optional<Member> optionalMember = memberRepository.findById(parameter.getUserId());
+
+        if(!optionalMember.isPresent())
+        {
+            return new ServiceResult(false, "에러로 찾을 수 없습니다.");
+        }
+        Member member = optionalMember.get();
+        
+        member.setPhone(parameter.getPhone());
+        member.setZipcode(parameter.getZipcode());
+        member.setAddr(parameter.getAddr());
+        member.setAddrDetail(parameter.getAddrDetail());
+        member.setUptDt(LocalDateTime.now());
+        memberRepository.save(member);
+
+
+        return new ServiceResult(true, "성공");
+    }
 }
