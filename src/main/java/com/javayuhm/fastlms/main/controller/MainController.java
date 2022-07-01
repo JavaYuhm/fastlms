@@ -1,6 +1,7 @@
 package com.javayuhm.fastlms.main.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +49,11 @@ public class MainController {
 
     }
 
+    @RequestMapping("/member/calendar")
+    public String calendar(Model model, HttpServletRequest httpServletRequest){
+
+        return "index";
+    }
 
     @RequestMapping("/error/denied")
     public String errorDenied() {
