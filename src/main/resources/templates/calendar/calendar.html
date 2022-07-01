@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>캘린더</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $('.row-buttons button').on('click', function () {
+                var status = $(this).val();
+                var id = $(this).closest('div').find('input[name=id]').val();
+                var msg = status == 'COMPLETE' ? '결재 완료처리하시겠습니까?' : '수강취소 처리 하시겠습니까?';
+
+                if(!confirm(msg)){
+                    return false;
+                }
+
+                var $procForm = $('#procForm');
+                $procForm.find('input[name=id]').val(id);
+                $procForm.find('input[name=status]').val(status);
+                $procForm.submit();
+
+            });
+        })
+    </script>
+</head>
+<body>
+</div>
+<h1>공유 캘린더 - 일정</h1>
+    <form name="calendarForm" id="calendarForm" method="GET">
+        <input type="hidden" name="year" th:value="${today_info.searchYear}">
+        <input type="hidden" name="month" th:value="${today_info.searchMonth}">
+    </form>
+
+    <div class="calendar">
+        <div class="navigation">
+            <a href="'./calendar.do?year=' + ${today_info.searchYear}"></a>
+        </div>
+    </div>
+
+</body>
+</html>
