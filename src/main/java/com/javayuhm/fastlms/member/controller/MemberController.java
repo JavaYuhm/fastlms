@@ -1,7 +1,10 @@
 package com.javayuhm.fastlms.member.controller;
 
 import com.javayuhm.fastlms.admin.dto.MemberDto;
+import com.javayuhm.fastlms.course.dto.TakeCourseDto;
+import com.javayuhm.fastlms.course.entity.TakeCourse;
 import com.javayuhm.fastlms.course.model.ServiceResult;
+import com.javayuhm.fastlms.course.service.TakeCourseService;
 import com.javayuhm.fastlms.member.entity.Member;
 import com.javayuhm.fastlms.member.model.MemberInput;
 import com.javayuhm.fastlms.member.model.ResetPasswordInput;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -36,6 +40,7 @@ public class MemberController {
     }*/
 
     private final MemberService memberService;
+    private final TakeCourseService takeCourseService;
 
     @RequestMapping("/member/login")
     public String login() {
@@ -162,6 +167,8 @@ public class MemberController {
     public String memberTakeCourse(Model model, Principal principal) {
 
         String userId = principal.getName();
+
+        List<TakeCourseDto> takeCourseDtoList = takeCourseService.myCouse(userId);
 
         MemberDto detail =memberService.detail(userId);
         model.addAttribute("detail", detail);

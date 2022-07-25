@@ -63,4 +63,13 @@ public class TakeCourseServiceImpl implements TakeCourseService{
         
         return new ServiceResult(true, "상태값이 업데이트 되었습니다");
     }
+
+    @Override
+    public List<TakeCourseDto> myCouse(String userId) {
+
+        TakeCourseParam takeCourseParam = new TakeCourseParam();
+        takeCourseParam.setUserId(userId);
+        List<TakeCourseDto> list = takeCourseMapper.selectMyCourseList(takeCourseParam);
+        return null;
+    }
 }

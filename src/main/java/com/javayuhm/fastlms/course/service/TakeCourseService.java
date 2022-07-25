@@ -17,4 +17,11 @@ public interface TakeCourseService {
      * @return
      */
     ServiceResult updateStatus(long id, String status);
+
+    /**
+     * 내수강 신청 내역
+     * @param userId
+     * @return
+     */
+    List<TakeCourseDto> myCouse(String userId);
 }
